@@ -27,6 +27,11 @@ class Item:
     def __str__(self) -> str:
         return f'{self.name}'
 
+    def __add__(self, other):
+        if isinstance(other, Item):
+            return self.quantity + other.quantity
+        raise ValueError("для сложения можно использовать только экземпляры класса Item или экземпляры его сабклассов")
+
     @classmethod
     def instantiate_from_csv(cls):
         # читаем CSV файл как список словарей, ключи
@@ -35,7 +40,6 @@ class Item:
             reader = DictReader(csvfile)
             for row in reader:
                 cls(row['name'], float(row['price']), cls.string_to_number(row['quantity']))
-
 
     @staticmethod
     def string_to_number(str_number: str):
